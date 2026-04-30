@@ -1,0 +1,93 @@
+# Setup
+
+```{r}
+library(sf)
+library(ggplot2)
+library(dplyr)
+library(janitor)
+library(tidyverse)
+```
+
+## Data
+Load raw data and clean names, remove NAs where applicable then save csv file for reading into database
+
+```{r}
+# Read GDW data
+gdw_path <- "data/raw/GDW_v1_0.gdb"
+st_layers(gdw_path) # Contains barriers (dams) and reservoirs
+gdw <- st_read(gdw_path, layer = "GDW_barriers_v1_0") |> 
+    clean_names() |> 
+  mutate(across(-Shape, ~ { # Replace -99 in all columns with NA
+    if (is.numeric(.)) {
+      na_if(., -99)
+    } else {
+      na_if(., "-99")
+    }
+  }))
+```
+
+
+# Read BasinATLAS data
+basinatlas_path <- "data/raw/BasinATLAS_v10.gdb"
+st_layers(basinatlas_path)
+basinatlas <- st_read(basinatlas_path, layer = "BasinATLAS_v10_lev12") |> 
+    clean_names() # Level 12 because thats what matches GDW
+
+# Read RiverATLAS
+riveratlas_path <- "data/raw/RiverATLAS_v10.gdb"
+riveratlas <- st_read(riveratlas_path, layer = "RiverATLAS_v10") |> 
+    clean_names()
+
+# Add LakeATLAS?
+
+# Read Free-Flowing Rivers
+ffr_path <- "data/raw/FFR_river_network.gdb"
+ffr <- st_read(ffr_path, layer = "FFR_river_network_v1") |> 
+    clean_names() |> 
+    rename(hyriv_id = reach_id) # rename reach_id from FFR to hyriv_id used by the rest
+
+```
+
+
+# Exploration
+
+```{r}
+# Looking for future dams GDW
+
+# Find # of GDW dams built in future
+gdw %>%
+  filter(YEAR_DAM > 2021) %>%
+  nrow()
+
+# Plot when dams were built removing -99
+gdw |> 
+  filter(YEAR_DAM != -99 & YEAR_DAM >= 1900) |> 
+  ggplot(aes(x = YEAR_DAM)) +
+  geom_bar()
+
+```
+
+### Checking if bas_id (FFR) and hybas_id (basinatlas) are the same 
+
+```{r}
+# 1. Check for shared values (Intersection)
+shared_ids <- intersect(ffr$bas_id, basinatlas$hybas_id)
+length(shared_ids)
+
+# 2. 
+
+ffr %>% slice_sample(n = 5) %>% pull(bas_id) %>% print()
+basinatlas %>% slice_sample(n = 5) %>% pull(hybas_id) %>% print()
+```
+
+
+## ICOLD 
+```{r}
+icold <- readxl::read_excel("data/raw/world_register_dams_2025.xlsx")
+1000 dams in ICOLD are under construction
+# Same thing for icold
+icold |> 
+  filter(Year != -99 & Year >= 1900) |> 
+  ggplot(aes(x = Year)) +
+  geom_bar()
+```
