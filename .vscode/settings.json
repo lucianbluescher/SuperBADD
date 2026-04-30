@@ -1,0 +1,17 @@
+{
+    "git.ignoreLimitWarning": true,
+    "workbench.editorAssociations": {
+        "*.parquet": "duckdb.dataFileViewer",
+        "*.csv": "duckdb.dataFileViewer",
+        "*.tsv": "duckdb.dataFileViewer"
+    },
+    "duckdb.databases": [
+        {
+            "alias": "superbadd",
+            "type": "file",
+            "path": "/Users/lucian/SuperBasinDamDatabase/superbadd.duckdb",
+            "attached": false
+        }
+    ],
+    "duckdb.defaultDatabase": "superbadd"
+}
