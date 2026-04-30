@@ -3,21 +3,20 @@
 -- =============================================================================
 
 CREATE TABLE basinatlas AS 
-SELECT * FROM read_csv_auto('data/basinatlas.csv');
+SELECT * FROM read_csv_auto('data/clean/basinatlas.csv');
 
 CREATE TABLE riveratlas AS 
-SELECT * FROM read_csv_auto('data/riveratlas.csv');
+SELECT * FROM read_csv_auto('data/clean/riveratlas.csv');
 
 CREATE TABLE ffr AS 
-SELECT * FROM read_csv_auto('data/ffr.csv');
+SELECT * FROM read_csv_auto('data/clean/ffr.csv');
 
 CREATE TABLE gdw AS
-SELECT * FROM read_csv_auto('data/gdw.csv');
+SELECT * FROM read_csv_auto('data/clean/gdw.csv');
 
 --- not yet working
 CREATE TABLE fhred AS 
-SELECT * FROM read_csv_auto('data/fhred.csv');
-
+SELECT * FROM read_csv_auto('data/clean/fhred.csv');
 -- =============================================================================
 -- Verification & Exploration
 -- =============================================================================
