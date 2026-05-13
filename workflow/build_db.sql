@@ -1,64 +1,12 @@
--- =============================================================================
--- SuperBADD Data Ingestion
--- =============================================================================
+-- Optional: duckdb database/superbadd.duckdb < workflow/build_db.sql
+-- Prefer: python scripts/ingest.py
 
-CREATE TABLE basinatlas AS 
-SELECT * FROM read_csv_auto('data/clean/basinatlas.csv');
+INSTALL spatial;
+LOAD spatial;
 
-CREATE TABLE riveratlas AS 
-SELECT * FROM read_csv_auto('data/clean/riveratlas.csv');
-
-CREATE TABLE ffr AS 
-SELECT * FROM read_csv_auto('data/clean/ffr.csv');
-
-CREATE TABLE gdw AS
-SELECT * FROM read_csv_auto('data/clean/gdw.csv');
-
---- not yet working
-CREATE TABLE fhred AS 
-SELECT * FROM read_csv_auto('data/clean/fhred.csv');
--- =============================================================================
--- Verification & Exploration
--- =============================================================================
-
-SHOW TABLES;
-
-SELECT COUNT(*) FROM gdw;
-
--- Check row counts for all tables to ensure full ingestion
-SELECT 'gdw' AS table_name, COUNT(*) AS row_count FROM gdw
-UNION ALL
-SELECT 'basinatlas', COUNT(*) FROM basinatlas
-UNION ALL
-SELECT 'riveratlas', COUNT(*) FROM riveratlas
-UNION ALL
-SELECT 'ffr', COUNT(*) FROM ffr;
-
--- Inspect column types and nullability for the Dam Watch data
-DESCRIBE gdw;
-
-
--- Find 10 largest dams to verify numeric sorting and data integrity
-SELECT 
-    dam_name, 
-    country, 
-    cap_mcm 
-FROM gdw 
-WHERE cap_mcm IS NOT NULL
-ORDER BY cap_mcm DESC 
-LIMIT 10;
-
--- Test a JOIN between GDW and FFR (River Network) 
--- to ensure the hyriv_id keys are matching correctly
-SELECT 
-    g.dam_name, 
-    f.hyriv_id,
-    f.river_name
-FROM gdw g
-JOIN ffr f ON g.hyriv_id = f.hyriv_id
-LIMIT 5;
-
-
--- Spatial extension helps DuckDB understand the geometry columns in your Parquet files
--- INSTALL spatial;
--- LOAD spatial;
+CREATE OR REPLACE TABLE gdw AS SELECT * FROM read_parquet('data/clean/gdw.parquet');
+CREATE OR REPLACE TABLE basinatlas AS SELECT * FROM read_parquet('data/clean/basinatlas.parquet');
+CREATE OR REPLACE TABLE riveratlas AS SELECT * FROM read_parquet('data/clean/riveratlas.parquet');
+CREATE OR REPLACE TABLE ffr AS SELECT * FROM read_parquet('data/clean/ffr.parquet');
+CREATE OR REPLACE TABLE fhred AS SELECT * FROM read_parquet('data/clean/fhred.parquet');
+CREATE OR REPLACE TABLE icold AS SELECT * FROM read_parquet('data/clean/icold.parquet');

@@ -1,6 +1,10 @@
 # Data folder
 /data/
 data/
+
+database/*.duckdb
+superbadd.db
+superbadd.duckdb
 .DS_Store
 # Byte-compiled / optimized / DLL files
 __pycache__/

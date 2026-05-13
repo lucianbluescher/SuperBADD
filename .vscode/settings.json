@@ -9,7 +9,7 @@
         {
             "alias": "superbadd",
             "type": "file",
-            "path": "/Users/lucian/SuperBasinDamDatabase/superbadd.duckdb",
+            "path": "${workspaceFolder}/database/superbadd.duckdb",
             "attached": false
         }
     ],
