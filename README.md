@@ -36,8 +36,8 @@ DuckDB builds tables from Parquet without explicit `PRIMARY KEY` clauses; below 
 | `riveratlas` | One row per river reach | `hyriv_id`; `hybas_l12` → `basinatlas.hybas_id`; `main_riv` tags the whole river system |
 | `basinatlas` | One row per basin polygon | `hybas_id` |
 | `ffr` | One row per reach in the FFR network | `hyriv_id` (same id space as RiverATLAS / GDW) |
-| `fhred` | One row per future-dam record (spreadsheet) | No automatic key to `gdw` — inspect columns; **coordinates** are the usual way to relate registers to GDW |
-| `icold` | One row per register record (spreadsheet) | Same as `fhred`: align lat/lon (or other) columns after `DESCRIBE`, then join or buffer in SQL |
+| `fhred` | One row per future-dam record (spreadsheet) |  **coordinate** key coming soon! |
+| `icold` | One row per register record (spreadsheet) | **coordinate** key coming soon! |
 
 ### Entity-relationship diagram
 
