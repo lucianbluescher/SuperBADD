@@ -6,5 +6,6 @@ pandas>=2.0.0
 numpy>=1.26.0
 openpyxl>=3.1.0
 matplotlib>=3.8.0
+contextily>=1.2.0
 ibis-framework[duckdb]>=9.0.0
 jupyter>=1.0.0
