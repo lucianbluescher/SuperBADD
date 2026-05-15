@@ -109,7 +109,7 @@ python scripts/ingest.py
 
 ## References
 
-- Course context: **EDS 213** at the [UCSB Bren School](https://bren.ucsb.edu/).
+- This repository was made in the course **EDS 213: Databases and Data Management** at the [UCSB Bren School](https://bren.ucsb.edu/) as part of the Masters of Environmental Data Science Program.
 - Huge thank you to the creators of the source datasets: **Global Dam Watch**, **HydroATLAS**, **Free-Flowing Rivers**, **FHReD**, and **ICOLD**.
 - And the professors and TAs who helped with the workflow, SQL, and Python: **Annie Adams**, **Julien Brun** and **Greg Janee**. It has been a great learning experience building this database!
 
