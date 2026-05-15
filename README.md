@@ -1,5 +1,8 @@
 # Super Basin Atlas Dam Database (SuperBaDD)
 
+<img width="1354" height="710" alt="image" src="https://github.com/user-attachments/assets/6faa525d-1c4d-4498-b4c8-74236138aac0" />
+
+
 The **Super Basin Atlas Dam Database** links two major global current dam datasets (Global Dam Watch and ICOLD) to river-network context from HydroATLAS and connectivity metrics from the Free-Flowing Rivers dataset. The goal is to enable fast SQL-based exploration of how river attributes relate to the dams to support planning for future hydrpower projects as well as dam removal effects. 
 
 ## Purpose
