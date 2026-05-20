@@ -18,19 +18,6 @@ Raw data is free and accessible online at the links below. Obtain **GDW v1.0**, 
 | `fhred` | [FHReD 2015](https://www.globaldamwatch.org/fhred/) | Planned / future dams → `fhred.parquet` |
 | `icold` | [ICOLD World Register](https://www.icold-cigb.org/GB/publications/world_register_of_dams.asp) | Alternative Current-dam register (separate from GDW) → `icold.parquet` |
 
-## Logical schema and keys
-
-DuckDB builds tables from Parquet without explicit `PRIMARY KEY` clauses; below is how joins are **meant** to work in analysis.
-
-| Table | Natural key (concept) | Joins on |
-|--------|------------------------|-----------|
-| `gdw` | One row per dam (`gdw_id` is the dam id) | `hyriv_id` → `riveratlas.hyriv_id`, `ffr.hyriv_id` |
-| `riveratlas` | One row per river reach | `hyriv_id`; `hybas_l12` → `basinatlas.hybas_id`; `main_riv` tags the whole river system |
-| `basinatlas` | One row per basin polygon | `hybas_id` |
-| `ffr` | One row per reach in the FFR network | `hyriv_id` (same id space as RiverATLAS / GDW) |
-| `fhred` | One row per future-dam record (spreadsheet) |  **coordinate** key coming soon! |
-| `icold` | One row per register record (spreadsheet) | **coordinate** key coming soon! |
-
 ### Entity-relationship diagram
 
 ```mermaid
@@ -57,6 +44,49 @@ flowchart LR
 - `notebooks/dam_river_network.ipynb` — maps + summaries + Ibis/SQL example
 - `workflow/build_db.sql` — optional CLI mirror of ingest
 - `requirements.txt` — Python packages (`pip install -r requirements.txt`)
+
+```
+├── data
+│   ├── clean                                     # Cleaned parquest files
+│   │   ├── basinatlas.parquet
+│   │   ├── ffr.parquet
+│   │   ├── fhred.parquet
+│   │   ├── gdw.parquet
+│   │   ├── icold.parquet
+│   │   └── riveratlas.parquet
+│   └── raw                                       # Raw data not included, but after download should resemble
+│       ├── BasinATLAS_v10.gdb
+│       ├── FFR_river_network.gdb
+│       ├── FHReD_2015_future_dams.xlsx
+│       ├── GDW_v1_0.gdb
+│       ├── RiverATLAS_v10.gdb
+│       └── world_register_dams_2025.xlsx
+├── database                                      # Database file will resemble. Folder will be present
+│   └── superbadd.duckdb
+├── LICENSE
+├── meta                                          # Metadata document for exploring attributes
+│   ├── BasinATLAS_Catalog_v10.pdf
+│   ├── FHReD_Metadata_2018.docx
+│   ├── GDW_TechDoc_v1_0.pdf
+│   ├── HydroATLAS_TechDoc_v10.pdf
+│   ├── HydroATLAS_v10_Legends.xlsx
+│   ├── ICOLD_meta.pdf
+│   ├── Mapping the worlds free-flowing rivers - Technical documentation - v1_0.pdf
+│   └── RiverATLAS_Catalog_v10.pdf
+├── notebooks                                     # Python notebooks
+│   ├── climate_csi_exploration.ipynb             # Exploring the CSI (FFR) of dammed rivers (GDW) in different climate zones (RiverATLAS)
+│   ├── dam_river_network.ipynb                   # Explore specific dammed river networks with maps
+│   └── data_cleaning.ipynb                       # Notebook for running clean_data.py cleanly
+├── README.md                                     # README
+├── requirements.txt                              # Environment Requirements 
+├── scripts                                       # Python Scripts
+│   ├── clean_data.py                             # Loads raw data cleans and saves .parquet file outputs
+│   └── ingest.py                                 # Builds database.duckdb file using processes .parquets
+├── sql                                           # SQL files
+│   ├── analytical_query.sql                      # Example SQL query
+│   └── verify_ingestion.sql                      # Check to ensure database was created successfully before exploring                                
+|   └── build_db.sql                              # Simplified database builder in SQL, alternative to ingest.py
+```
 
 ## Reproduce
 
