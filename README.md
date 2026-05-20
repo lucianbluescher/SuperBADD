@@ -2,7 +2,6 @@
 
 <img width="1354" height="710" alt="image" src="https://github.com/user-attachments/assets/6faa525d-1c4d-4498-b4c8-74236138aac0" />
 
-
 The purpose of the **Super Basin Atlas Dam Database** links two major global current dam datasets (Global Dam Watch and ICOLD) to river-network context from HydroATLAS and connectivity metrics from the Free-Flowing Rivers dataset. These large datasets are can be very computationally expensive to work with, the goal of SuperBADD is to enable quick SQL-based exploration of how river attributes relate to the dams.
 
 ## Data Access
@@ -35,15 +34,7 @@ flowchart LR
   riv -.->|"coords TBD"| icold
 ```
 
-## Repo Organization and docs are organized as follows:
-
-- `scripts/clean_data.py` — raw inputs → `data/clean/*.parquet`
-- `scripts/ingest.py` — Parquet → `database/superbadd.duckdb`
-- `sql/` — analytical, verification, and join-template SQL
-- `notebooks/data_cleaning.ipynb` — runs the cleaning script
-- `notebooks/dam_river_network.ipynb` — maps + summaries + Ibis/SQL example
-- `workflow/build_db.sql` — optional CLI mirror of ingest
-- `requirements.txt` — Python packages (`pip install -r requirements.txt`)
+## Repo Organization
 
 ```
 ├── data
@@ -101,8 +92,6 @@ python scripts/ingest.py
 ```
 
 5. Open the notebooks with the repo root (`/SuperBasinDamDatabase`) as the working directory when possible.
-
-
 
 ## References
 
